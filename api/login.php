@@ -42,7 +42,7 @@ function getUser($login, $haslo, $db) {
     // get number of rows
     $num = $stmt->rowCount();
 
-    if ($num==1) {
+    if ($num == 1) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return true;
     }
