@@ -54,13 +54,17 @@ if ( getUser($data->login, $data->haslo, $db)) {
     http_response_code(200);
     echo json_encode(
             array(
+                "status" => true,
                 "message" => "Zalogowany.",
             )
         );
 } else {
     // set response code
     http_response_code(401);
-    echo json_encode(array("message" => "Błąd logowania."));
+    echo json_encode(array(
+        "status" => false,
+        "message" => "Błąd logowania."
+    ));
 }
 
 
