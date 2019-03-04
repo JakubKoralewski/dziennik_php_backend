@@ -135,6 +135,51 @@ function delete_student($id){
 	return false;
 }
 
+function edit_student($id, $nowy_uczen) {
+	global $db;
+	// delete query
+	
+	$set_query = "SET ";
+	$properties_amount = sizeof($nowy_uczen);
+	$properties_set = 0;
+	if( isset($nowy_uczen["imie"]) ) {
+		//echo 'property_exists';
+		$set_query.= "imie='".htmlspecialchars(strip_tags($nowy_uczen["imie"]))."' ";
+		$properties_set++;
+	}
+	if( isset($nowy_uczen["klasa"]) ) {
+		$set_query.= "klasa='".htmlspecialchars(strip_tags($nowy_uczen["klasa"]))."' ";
+		$properties_set++;
+	}
+	if( isset($nowy_uczen["telefon"]) ) {
+		$set_query.= "telefon='".htmlspecialchars(strip_tags($nowy_uczen["telefon"]))."' ";
+		$properties_set++;
+	}
+	if( isset($nowy_uczen["nazwisko"]) ) {
+		$set_query.= "nazwisko='".htmlspecialchars(strip_tags($nowy_uczen["nazwisko"]))."' ";
+		$properties_set++;
+	}
+
+
+	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=:id";
+	echo "\$query:" . $query;
+	// prepare query
+	$stmt = $db->prepare($query);
+ 
+	// sanitize
+	$id = htmlspecialchars(strip_tags($id));
+ 
+	// bind id of record to delete
+	$stmt->bindParam(":id", $id);
+ 
+	// execute query
+	if($stmt->execute()){
+		return true;
+	}
+ 
+	return false;
+}
+
 switch($request_method) {
 	case 'GET':
 		// Remove student
@@ -211,6 +256,33 @@ switch($request_method) {
 			// if deleting unsuccessful
 			http_response_code(503);
 			echo json_encode(array("message" => "Nie udało się usunąć ucznia."));
+		}
+		break;
+	case 'PUT':
+		$data = json_decode(file_get_contents('php://input'), true);
+		if( is_null($data["id"]) || is_null($data["new_data"])) {
+			http_response_code(400);
+
+			$response = array(
+				'message' => 'Nieprawidłowe dane.'
+			);
+			echo json_encode($response);
+			exit;
+		}
+		if (edit_student($data["id"], $data["new_data"])) {
+			http_response_code(200);
+			$response = array(
+				'message' => 'Zedytowano ucznia.',
+			);
+			echo json_encode($response);
+		} else {
+			echo var_dump($data);
+			// Adding unsuccessful
+			http_response_code(500);
+			$response = array(
+				'message' => 'Nie udało się zedytować ucznia.'
+			);
+			echo json_encode($response);
 		}
 		break;
 	default:
