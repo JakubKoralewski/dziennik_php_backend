@@ -26,7 +26,7 @@ $request_method=$_SERVER["REQUEST_METHOD"];
 function get_students($id = 0){
 	global $db;
 	
-	$query = "SELECT * FROM `uczniowie`";
+	$query = "SELECT * FROM uczniowie";
 	
 	if($id != 0) {
 		$query .= "WHERE id = " . $id . " LIMIT 1";
@@ -63,7 +63,7 @@ function get_students($id = 0){
 function get_student($imie, $nazwisko) {
 	global $db;
 	
-	$query = "SELECT * FROM `uczniowie` WHERE imie=:imie AND nazwisko=:nazwisko";
+	$query = "SELECT * FROM uczniowie WHERE imie=:imie AND nazwisko=:nazwisko";
 	$stmt = $db->prepare($query);
 
 	$stmt->bindParam(":imie", $imie);
@@ -95,7 +95,7 @@ function get_student($imie, $nazwisko) {
 /* INSERT INTO `uczniowie` (`id`, `imie`, `nazwisko`, `klasa`, `telefon`) VALUES (NULL, 'Jakub', 'Koralewski', '3D', '666666666'); */
 function add_student($nowy_uczen) {
 	global $db;
-	$query = "INSERT INTO `uczniowie` SET id=:id, imie=:imie, nazwisko=:nazwisko, klasa=:klasa, telefon=:telefon";
+	$query = "INSERT INTO uczniowie SET id=:id, imie=:imie, nazwisko=:nazwisko, klasa=:klasa, telefon=:telefon";
 	
 	$stmt = $db->prepare($query);
 
@@ -117,7 +117,7 @@ function add_student($nowy_uczen) {
 function delete_student($id){
 	global $db;
 	// delete query
-	$query = "DELETE FROM `uczniowie` WHERE id = ?";
+	$query = "DELETE FROM uczniowie WHERE id = ?";
 	// prepare query
 	$stmt = $db->prepare($query);
  
@@ -161,7 +161,7 @@ function edit_student($id, $nowy_uczen) {
 	}
 
 
-	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=:id";
+	$query = "UPDATE uczniowie " . $set_query . "WHERE id=:id";
 	echo "\$query:" . $query;
 	// prepare query
 	$stmt = $db->prepare($query);
