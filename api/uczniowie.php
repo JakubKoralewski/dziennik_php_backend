@@ -95,7 +95,7 @@ function get_student($imie, $nazwisko) {
 /* INSERT INTO `uczniowie` (`id`, `imie`, `nazwisko`, `klasa`, `telefon`) VALUES (NULL, 'Jakub', 'Koralewski', '3D', '666666666'); */
 function add_student($nowy_uczen) {
 	global $db;
-	$query = "INSERT INTO uczniowie SET id=:id, imie=:imie, nazwisko=:nazwisko, klasa=:klasa, telefon=:telefon";
+	$query = "INSERT INTO uczniowie (id, imie, nazwisko, klasa, telefon) VALUES(:id, :imie, :nazwisko, :klasa, :telefon)";
 	
 	$stmt = $db->prepare($query);
 
