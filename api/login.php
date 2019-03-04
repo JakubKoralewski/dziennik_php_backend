@@ -30,7 +30,7 @@ function getUser($login, $haslo, $db) {
 			FROM uzytkownicy
 			WHERE login = ?
 			AND haslo = ?
-			LIMIT 0,1 ';
+			LIMIT 1';
 	
 	$stmt = $db->prepare($query);
 
