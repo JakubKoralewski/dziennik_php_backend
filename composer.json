@@ -1,0 +1,7 @@
+{
+    "name": "dziennik_php",
+    "description": "Vanilla PHP REST API",
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    }
+}
