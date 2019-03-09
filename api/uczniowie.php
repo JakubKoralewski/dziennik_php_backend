@@ -161,8 +161,8 @@ function edit_student($id, $nowy_uczen) {
 	}
 
 
-	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=:id";
-	echo "\$query:" . $query;
+	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=".htmlspecialchars(strip_tags($id));
+	//echo "\$query:" . $query;
 	// prepare query
 	$stmt = $db->prepare($query);
  
@@ -260,7 +260,7 @@ switch($request_method) {
 		break;
 	case 'PUT':
 		$data = json_decode(file_get_contents('php://input'), true);
-		if( is_null($data["id"]) || is_null($data["new_data"])) {
+		if( is_null($data["id"]) || empty($data["new_data"])) {
 			http_response_code(400);
 
 			$response = array(
