@@ -144,33 +144,27 @@ function edit_student($id, $nowy_uczen) {
 	$properties_set = 0;
 	if( isset($nowy_uczen["imie"]) ) {
 		//echo 'property_exists';
-		$set_query.= "imie='".htmlspecialchars(strip_tags($nowy_uczen["imie"]))."' ";
+		$set_query.= "imie='".htmlentities(htmlspecialchars(strip_tags($nowy_uczen["imie"])), ENT_QUOTES)."' ";
 		$properties_set++;
 	}
 	if( isset($nowy_uczen["klasa"]) ) {
-		$set_query.= "klasa='".htmlspecialchars(strip_tags($nowy_uczen["klasa"]))."' ";
+		$set_query.= "klasa='".htmlentities(htmlspecialchars(strip_tags($nowy_uczen["klasa"])), ENT_QUOTES)."' ";
 		$properties_set++;
 	}
 	if( isset($nowy_uczen["telefon"]) ) {
-		$set_query.= "telefon='".htmlspecialchars(strip_tags($nowy_uczen["telefon"]))."' ";
+		$set_query.= "telefon='".htmlentities(htmlspecialchars(strip_tags($nowy_uczen["telefon"])), ENT_QUOTES)."' ";
 		$properties_set++;
 	}
 	if( isset($nowy_uczen["nazwisko"]) ) {
-		$set_query.= "nazwisko='".htmlspecialchars(strip_tags($nowy_uczen["nazwisko"]))."' ";
+		$set_query.= "nazwisko='".htmlentities(htmlspecialchars(strip_tags($nowy_uczen["nazwisko"])), ENT_QUOTES)."' ";
 		$properties_set++;
 	}
 
 
-	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=".htmlspecialchars(strip_tags($id));
+	$query = "UPDATE `uczniowie` " . $set_query . "WHERE id=".htmlentities(htmlspecialchars(strip_tags($id)), ENT_QUOTES);
 	//echo "\$query:" . $query;
 	// prepare query
 	$stmt = $db->prepare($query);
- 
-	// sanitize
-	$id = htmlspecialchars(strip_tags($id));
- 
-	// bind id of record to delete
-	$stmt->bindParam(":id", $id);
  
 	// execute query
 	if($stmt->execute()){
